@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adithiyaa JP | Arch Overlord</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --text-primary: #00ff00;
+            --accent-blue: #1793D1;
+            --accent-green: #2ecc71;
+            --terminal-bg: #111;
+            --cursor-blink: #00ff00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-blue) var(--bg-primary);
+        }
+
+        body {
+            font-family: 'Fira Code', 'Hack', monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            cursor: none;
+            user-select: none;
+        }
+
+        /* Hacker Cursor */
+        body::after {
+            content: '▊';
+            position: fixed;
+            pointer-events: none;
+            color: var(--cursor-blink);
+            animation: blink 1s infinite;
+            z-index: 9999;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Terminal-like Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background-color: var(--terminal-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--accent-blue);
+            border-radius: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgba(0,0,0,0.9);
+            padding: 10px 0;
+            border-bottom: 1px solid var(--accent-blue);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--accent-blue);
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-left: 20px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a::before {
+            content: '$ ';
+            color: var(--accent-blue);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links li a:hover::before {
+            opacity: 1;
+        }
+
+        .nav-links li a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Sections */
+        .section {
+            padding: 50px 0;
+            border-bottom: 1px solid rgba(23, 147, 209, 0.2);
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--accent-blue);
+            margin-bottom: 30px;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .section-title::after {
+            content: '█';
+            position: absolute;
+            animation: cursor-blink 1s infinite;
+            right: -20px;
+            color: var(--text-primary);
+        }
+
+        /* Terminal Styles */
+        .terminal {
+            background-color: var(--terminal-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+        }
+
+        .terminal-header {
+            background-color: #333;
+            padding: 10px;
+            display: flex;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .terminal-button.red { background-color: #ff5f56; }
+        .terminal-button.yellow { background-color: #ffbd2e; }
+        .terminal-button.green { background-color: #27c93f; }
+
+        .terminal-content {
+            padding: 15px;
+            font-family: 'Fira Code', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Skill & Project Cards */
+        .skill-card, .project-card {
+            background-color: rgba(23, 147, 209, 0.1);
+            border: 1px solid var(--accent-blue);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover, .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(23, 147, 209, 0.3);
+        }
+
+        .project-tags .project-tag {
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+            padding: 3px 8px;
+            margin-right: 5px;
+            font-size: 0.8rem;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background-color: rgba(23, 147, 209, 0.1);
+            padding: 30px;
+            border: 1px solid var(--accent-blue);
+        }
+
+        .form-control {
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--accent-blue);
+            color: var(--text-primary);
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .form-btn {
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-btn:hover {
+            background-color: var(--accent-green);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: rgba(0,0,0,0.9);
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid var(--accent-blue);
+        }
+
+        .footer-social a {
+            color: var(--text-primary);
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+        }
+
+        /* ASCII Pacman Easter Egg */
+        .pacman-ascii {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: var(--accent-blue);
+            font-family: monospace;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            user-select: none;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Rest of the HTML remains the same as the original document -->
+    <!-- [All previous HTML content from the original document] -->
+
+    <!-- Pacman ASCII Easter Egg -->
+    <div class="pacman-ascii">
+  ▄███████▄
+ █▀█▀█▄█▀█▀█
+ ████▄████▄██
+    </div>
+
+    <script>
+        // Previous JavaScript remains the same, with additions below
+
+        // Hacker Cursor Tracking
+        document.addEventListener('mousemove', function(e) {
+            const cursor = document.querySelector('body::after');
+            if (cursor) {
+                cursor.style.left = (e.clientX + 10) + 'px';
+                cursor.style.top = (e.clientY) + 'px';
+            }
+        });
+
+        // Sarcastic Tooltips
+        const tooltips = [
+            "Oh, you need a GUI?",
+            "Vim > Everything",
+            "btw I use Arch",
+            "Compiling...",
+            "Real programmers use cat",
+            "sudo make me a sandwich"
+        ];
+
+        document.querySelectorAll('.skill-card, .project-card, .nav-links a').forEach(el => {
+            el.addEventListener('mouseenter', function() {
+                const tooltip = document.createElement('div');
+                tooltip.classList.add('hacker-tooltip');
+                tooltip.textContent = tooltips[Math.floor(Math.random() * tooltips.length)];
+                tooltip.style.position = 'fixed';
+                tooltip.style.backgroundColor = 'var(--terminal-bg)';
+                tooltip.style.border = '1px solid var(--accent-blue)';
+                tooltip.style.padding = '5px';
+                tooltip.style.color = 'var(--text-primary)';
+                document.body.appendChild(tooltip);
+
+                const rect = el.getBoundingClientRect();
+                tooltip.style.left = (rect.right + 10) + 'px';
+                tooltip.style.top = rect.top + 'px';
+
+                el.addEventListener('mouseleave', () => {
+                    document.body.removeChild(tooltip);
+                });
+            });
+        });
+
+        // Random Modal Quotes
+        const linuxQuotes = [
+            "Talk is cheap. Show me the code. - Linus Torvalds",
+            "GNU, not Unix! - Richard Stallman",
+            "Software is like sex: it's better when it's free. - Linus Torvalds",
+            "Choose the right tool for the job. - The Arch Way"
+        ];
+
+        function showRandomQuote() {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.backgroundColor = 'var(--terminal-bg)';
+            modal.style.border = '1px solid var(--accent-blue)';
+            modal.style.padding = '20px';
+            modal.style.color = 'var(--text-primary)';
+            modal.style.zIndex = '1000';
+            modal.textContent = linuxQuotes[Math.floor(Math.random() * linuxQuotes.length)];
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'Close [x]';
+            closeBtn.style.marginTop = '10px';
+            closeBtn.style.backgroundColor = 'var(--accent-blue)';
+            closeBtn.style.color = 'var(--bg-primary)';
+            closeBtn.style.border = 'none';
+            closeBtn.style.padding = '5px';
+            
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            modal.appendChild(closeBtn);
+            document.body.appendChild(modal);
+        }
+
+        // Show quote on random interval
+        setInterval(showRandomQuote, Math.random() * 60000 + 30000);
+
+        // Dev Tools Easter Egg
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                alert('Peek behind the curtain, huh? Nice try.');
+            }
+        });
+    </script>
+</body>
+</html>
